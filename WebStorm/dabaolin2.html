@@ -7,21 +7,34 @@
     <style type="text/css">
         #blockstyle {
             background-color: #f6f5ec;
+            padding: 30px;
+            border-right: solid 4px #d1c7b7;
+            border-bottom: solid 2px #d1c7b7;
+            margin: 30px;
         }
+
+        #navstyle {
+            color: white;
+        }
+
     </style>
 
 
 </head>
 <body style="background-color: #d9d6c3">
-    <h1>网站一级标题</h1>
-    <div>
-        <ul>
-            <li><a href="#step1">导航链接1</a></li>
-            <li><a href="#step2">导航链接2</a></li>
-            <li><a href="#step3">导航链接3</a></li>
-            <li><a href="#step4">导航链接4</a></li>
-        </ul>
-    </div>
+    <nav style="background-color: #9d9087; padding: 10px 20px 10px 20px; margin-bottom: 20px;">
+            <div>
+                <div style="text-align: right">
+                    <img src="pic/logo.png" align="middle" />
+                    <a id="navstyle" href="#step1">导航链接1</a>
+                    <a id="navstyle" href="#step2">导航链接2</a>
+                    <a id="navstyle" href="#step3">导航链接3</a>
+                    <a id="navstyle" href="#step4">导航链接4</a>
+                </div>
+            </div>
+
+    </nav>
+
     <div id="blockstyle">
         <h2><a name="step1">文章1一级标题</a></h2>
             <p>
@@ -53,7 +66,7 @@
 
             </p>
     </div>
-    <div>
+    <div id="blockstyle">
         <h2><a name="step2">文章2一级标题</a></h2>
         <p>
             这是一个很长很长的段落这是一个很长很长的段落这是一个很长很长的段落这是一个很长很长的段落
@@ -93,7 +106,7 @@
         </ul>
     </div>
         <br>
-    <div>
+    <div id="blockstyle">
         <h2><a name="step3">文章3一级标题</a></h2>
         <ol>
             <li>排名1</li>
@@ -110,22 +123,22 @@
             <tr>
                 <td>表内容单元格</td>
                 <td>表内容单元格</td>
-                <td>表内容单元格</td>
+                <td><a>操作</a></td>
             </tr>
             <tr>
                 <td>表内容单元格</td>
                 <td>表内容单元格</td>
-                <td>表内容单元格</td>
+                <td><a>操作</a></td>
             </tr>
             <tr>
                 <td>表内容单元格</td>
                 <td>表内容单元格</td>
-                <td>表内容单元格</td>
+                <td><a>操作</a></td>
             </tr>
             <tr>
                 <td>表内容单元格</td>
                 <td>表内容单元格</td>
-                <td>表内容单元格</td>
+                <td><a>操作</a></td>
             </tr>
             <tr>
                 <td>合计</td>
@@ -133,8 +146,8 @@
             </tr>
         </table>
     </div>
-    <div>
 
+    <div id="blockstyle">
         <h2><a name="step4">文章4一级标题</a></h2>
         <h3>侧栏注册窗口标题</h3>
         <div>
@@ -181,7 +194,7 @@
         </form>
     </div>
     <br>
-    <div>
+    <div style="background-color: #9d9087; padding: 20px; text-align: center; color: white;">
         <a>版权所有 @ 爱大包的Liliyard</a>
     </div>
 </body>
