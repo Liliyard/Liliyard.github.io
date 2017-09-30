@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = "~/Views/Shared/AdminMyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model AdminUserApplyListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+    <div>
+        <h3>版主管理<small>&nbsp;&nbsp;版主申请</small></h3>
+    </div>
+    <hr />
+    <div>
+        <table class="table table-hover" style="background-color:antiquewhite;">
+            <tr style="background-color:#f2c9ac;">
+                <td>用户ID</td>
+                <td>用户名</td>
+                <td>发帖量</td>
+                <td>申请时间</td>
+                <td>申请理由</td>
+                <td></td>
+            </tr>
+            @foreach (AdminApplyViewModel item in Model.Applys)
+            {
+                <tr>
+                    <td>@item.UserID</td>
+                    <td>@item.UName</td>
+                    <td>@item.PostingAmount</td>
+                    <td>@item.ApplyDate</td>
+                    <td>@item.Reason</td>
+                    <td>
+                        @Html.ActionLink("授权", "AgreeAdmin", new { id = item.ApplyID }, new { onclick = "return (confirm('确定要授权吗？'))" }) &nbsp; | &nbsp;
+                        @Html.ActionLink("拒绝", "EscAdmin", new { id = item.ApplyID }, new { onclick = "return (confirm('确定要拒绝吗？'))" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+}
+

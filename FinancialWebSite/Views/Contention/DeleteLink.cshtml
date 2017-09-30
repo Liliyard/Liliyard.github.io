@@ -1,0 +1,5 @@
+﻿@using FinancialWebSite.Controllers
+@model TempData
+
+
+@Html.ActionLink("删除", "Delete", new { id = Model.ContentionID }, new { onclick = "return (confirm('确定要删除吗？'))" })

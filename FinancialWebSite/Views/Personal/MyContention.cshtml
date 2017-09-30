@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model TitleListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+
+    <div class="container-fluid" style="margin-bottom:10px;">
+        <div class="col-md-5">
+            <h3>我的帖子&nbsp;&nbsp;<small>My Contentions</small></h3>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-4" style="top:35px;">
+            <form action="/Personal/SearchTitle" method="post">
+                <label>按标题搜索</label>&nbsp;
+                <input type="text" id="TxtSearch" name="SearchKey" value="" />&nbsp;
+                <button type="submit" id="btnStyle" style="padding-left:10px; padding-right:10px;">搜索</button>
+            </form>
+        </div>
+
+    </div>
+
+    <hr style="border:1px solid;color:brown;">
+
+    <div class="container-fluid">        
+            <table class="table table-hover" style="background-color:antiquewhite;">
+                <tr style="background-color:#f2c9ac;">
+                    <th>标题</th>
+                    <th>作者</th>
+                    <th>日期</th>
+                    <th>回复数</th>
+                    <th></th>
+                </tr>
+                @foreach (TitleViewModel item in Model.Titles)
+                {
+                    <tr>
+                        <td class="col-md-8"> @Html.ActionLink(@item.TName, "Contention", new { id = item.TitleID }, new { target = "_blank" }) </td>
+                        <td class="col-md-2"> @item.UName </td>
+                        <td class="col-md-1"> @item.TDate </td>
+                        <td class="col-md-1"> @item.Reply </td>
+                    </tr>
+                }
+            </table>
+
+    </div>
+
+
+
+
+}

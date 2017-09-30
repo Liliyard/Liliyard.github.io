@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = "~/Views/Shared/AdminMyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model DiaryListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+    <div>
+        <h3>操作日志<small>&nbsp;&nbsp;版主申请日志</small></h3>
+    </div>
+    <hr />
+    <div>
+        <table class="table table-hover" style="background-color:antiquewhite;">
+            <tr style="background-color:#f2c9ac;">
+                <td>日志编号</td>
+                <td>用户名</td>
+                <td>申请状态</td>
+                <td>操作者</td>
+                <td>操作日期</td>
+            </tr>
+            @foreach (DiaryViewModel item in Model.Diaries)
+            {
+                <tr>
+                    <td>@item.DiaryID</td>
+                    <td>@item.UName</td>
+                    <td>@item.ApplyState</td>
+                    <td>@item.Aname</td>
+                    <td>@item.DiaryDate</td>                                 
+                </tr>
+            }
+        </table>
+    </div>
+
+}
+

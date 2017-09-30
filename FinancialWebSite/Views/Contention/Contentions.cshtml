@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model ContentionListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+
+    <div class="container-fluid" style="margin-bottom:10px;">
+        <div class="col-md-5">
+            <h3>讨论圈&nbsp;&nbsp;<small>通过交流了解世界</small></h3>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-4" style="top:35px;"></div>
+
+    </div>
+
+    <hr style="border:1px solid;color:brown;">
+
+    <div class="container-fluid">
+        <div class="col-md-2"></div>     
+        <div class="col-md-8">
+            <div style="border-bottom:2px dashed brown;margin-bottom:15px;padding-bottom:10px;">
+               
+                <h4>@Model.Title</h4>
+                
+            </div>
+            <div>
+                @foreach (ContentionViewModel item in Model.Contents)
+                {
+                        <div style="border-bottom:1px solid brown; margin-top:10px;">
+                            <span><b>#@item.UName</b></span><br />
+                            <span>@item.Contentions</span><br />
+                            <span>@item.CDate</span>
+                            <div>
+                                @{
+                                    Html.RenderAction("GetDeleteLink", new { id = item.ContentionID });
+                                }
+                            </div>
+                            
+                        </div>
+                }
+                
+            </div>
+            
+            <div>
+                <hr style="border:1px solid;color:brown;">
+            </div>
+
+            <div class="container-fluid" style="margin-bottom:20px;">
+                <form action="/Contention/AddContention" method="post">
+                    <input type="hidden" name="titleID" value="@Model.Contents[0].TitleID" />
+                    <label>回复</label>&nbsp;
+                    <textarea class="form-control" rows="3" name="Reply"></textarea>
+                    <button type="submit" id="btnStyle" style="padding-left:10px; padding-right:10px;margin-top:10px;">发表</button>
+                </form>
+            </div>
+            <div class="col-md-2"></div>
+            
+        </div>
+    </div>
+
+}

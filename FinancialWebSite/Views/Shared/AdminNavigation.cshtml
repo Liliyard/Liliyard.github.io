@@ -1,0 +1,40 @@
+﻿@using FinancialWebSite.ViewModels
+@model BaseViewModel
+
+<nav class="navbar navbar-default" style="background-color:#cd8c5c;">
+    
+        <div class="navbar-header">
+            <a class="navbar-brand" style="color:white; padding-top:0px;" href="#">
+                <b><img alt="Brand" src="~/Pic/LogoPIC.png">&nbsp;&nbsp;家庭理财系统-后台管理</b>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">版主管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="background-color:#cd8c5c">
+                        <li><a href="/Administer/Manager">现任版主管理</a></li>
+                        <li><a href="/Administer/Apply">版主申请</a></li>                        
+                    </ul>
+                </li> 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">操作日志<span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="background-color:#cd8c5c">
+                        <li><a href="/Administer/OperateLog">版主管理日志</a></li>
+                        <li><a href="/Administer/ApplyLog">申请管理日志</a></li>
+                    </ul>
+                </li>       
+                <li></li>
+            </ul>
+            
+            <ul class="nav navbar-nav navbar-right">           
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.UserName<span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="background-color:#cd8c5c">
+                        <li><a href="/Authentication/Logout">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+</nav>

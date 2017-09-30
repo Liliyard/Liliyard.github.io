@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/Shared/UnLoginView.cshtml";
+}
+
+@model FinancialWebSite.Models.UserDetails
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+    <div class="col-md-4"></div>
+    <div class="col-md-4" style="text-align:center;padding-top:90px;padding-bottom:100px;">
+
+        <div class="page-header" style="border-bottom:1px solid black;">
+            <h1>&nbsp;登陆 <small>Login</small></h1>
+        </div>
+
+        <div style="background-color:antiquewhite;border-radius:10px;padding-top:30px;padding-bottom:30px;">
+            @Html.ValidationMessage("CredentialError", new { style = "color:red;" })
+            <form style="padding-left:10px;padding-right:10px;" action="/Authentication/submitLogin" method="post">
+                <div class="form-group">
+                    <label for="InputUname" class="sr-only">请输入用户名</label>
+                    <input type="text" class="form-control" id="InputUname" name="UserName" placeholder="用户名">
+                </div>
+                <div class="form-group">
+                    <label for="InputUpassword" class="sr-only">密码</label>
+                    <input type="password" class="form-control" id="InputUpassword" name="Password" placeholder="密码">
+                </div>
+                <div style="text-align:right;">
+                    @Html.ActionLink("忘记密码？", "ForgetPassword")
+                </div>
+                
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="uIdentity" value="User" checked="checked"> 普通用户
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input type="radio" name="uIdentity" value="Admin"> 管理员
+                    </label>
+                </div>
+                <br />
+                <div>
+                    <button type="submit" class="btn btn-default" style="padding-left:30px;padding-right:30px;" name="btnLogin" value="Login">登陆</button>
+                    &nbsp;&nbsp;
+                    <button type="submit" class="btn btn-default" style="padding-left:30px;padding-right:30px;" name="btnLogin" value="Register">注册</button>
+                </div>
+                
+            </form>
+            
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+}

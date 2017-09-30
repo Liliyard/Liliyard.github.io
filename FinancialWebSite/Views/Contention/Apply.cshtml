@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model BaseViewModel
+
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{    
+    
+<div class="container-fluid" style="text-align:center;">
+    <h2>申请 <small>&nbsp;&nbsp; Apply</small></h2>
+</div>
+    <div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4" style="padding-top:30px; padding-bottom:50px;">
+            <form action="/Contention/SaveApply" method="post">                
+                <div>
+                    <div>
+                        <label>申请人：@Model.UserName</label>
+                    </div><br />
+                    <div>
+                        <label>申请理由：</label>
+                    </div>
+                    <div>
+                        <textarea class="form-control" rows="3" name="Reason"></textarea>
+                    </div>
+                </div>                
+                <div style="text-align:center;margin-top:30px;">
+                    <input type="submit" name="BtnSubmit" id="smallbtnStyle" value="保存" />
+                    <input type="submit" name="BtnSubmit" id="smallbtnStyle" value="取消" />
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+}
+
+

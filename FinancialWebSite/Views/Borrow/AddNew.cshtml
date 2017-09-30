@@ -1,0 +1,132 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model BaseViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+
+<script>
+    function ResetEditBorrowForm() {
+        document.getElementById('TxtBTitle').value = "";
+        document.getElementById('TxtBTotal').value = "";
+        document.getElementById('TxtBMonthShouldPay').value = "";
+        document.getElementById('TxtBNextRepay').value = "";
+        document.getElementById('TxtBShouldPay').value = "";
+        document.getElementById('TxtBHavePay').value = "";
+        document.getElementById('TxtBRemark').value = "";
+    }
+</script>
+
+    <script type="text/javascript">
+
+        // 日期选择器
+        $(document).ready(function () {
+            $('#TxtBNextRepay').datetimepicker({
+                format: 'yyyy-mm-dd',
+                weekStart: 1,
+                autoclose: true,
+                startView: 2,
+                minView: 2,
+                forceParse: false,
+                language: 'zh-CN'
+            });
+        })
+    </script>
+    <div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form action="/Borrow/SaveAdd" method="post">
+                <input value="" name="BorrowID" type="hidden" />                
+                <div>
+                    <div>
+                        <label>借贷名:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtBTitle" name="BTitle" value="" style="width:100%;padding-left:10px;" />
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    <div>
+                        <label>总金额：</label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtBTotal" name="BTotal" value="" style="width:100%;padding-left:10px;" />
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    <div>
+                        <label>每月应还款：</label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtBMonthShouldPay" name="BMonthShouldPay" value="" style="width:100%;padding-left:10px;" />
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    <div>
+                        <label>下个还款日：</label>
+                    </div>
+                    <div style="padding-left:0px;">
+                        <div class='input-group date form_date'>
+                            <input id="TxtBNextRepay" name="BNextRepay" type='text' class="form-control input-sm" readonly="readonly" value="" />
+                            <span class="input-group-addon input-sm">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    <div>
+                        <label>分期数：</label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtBShouldPay" name="BShouldPay" value="" style="width:100%;padding-left:10px;" />
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    <div>
+                        <label>已还期数：</label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtBHavePay" name="BHavePay" value="" style="width:100%;padding-left:10px;" />
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    <div>
+                        <label>备注: </label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtBRemark" name="BRemark" value="" style="width:100%;padding-left:10px;" />
+                    </div>
+
+                </div>
+                <br />
+                <div style="text-align:center;">
+                    <input type="submit" name="BtnSubmit" value="保存" />
+                    <input type="button" name="BtnReset" value="重置" onclick="ResetAddBorrowForm();" />
+                    <input type="submit" name="BtnSubmit" value="取消" />
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+}
+

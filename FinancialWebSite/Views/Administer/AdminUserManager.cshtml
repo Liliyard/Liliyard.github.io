@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = "~/Views/Shared/AdminMyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model AdminUserManageListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+<div>
+    <h3>版主管理<small>&nbsp;&nbsp;现任版主</small></h3>
+</div>
+    <hr />
+    <div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+            <div>
+                <table class="table table-hover" style="background-color:antiquewhite;">
+                    <tr style="background-color:#f2c9ac;">
+                        <td>用户ID</td>
+                        <td>用户名</td>
+                        <td>发帖量</td>
+                        <td></td>
+                    </tr>
+                    @foreach (AdminManageViewModel item in Model.Admins)
+                    {
+                        <tr>
+                            <td>@item.UserID</td>
+                            <td>@item.UName</td>
+                            <td>@item.PostingAmount</td>
+                            <td>
+                                @Html.ActionLink("撤销", "CancelAdmin", new { id = item.UserID }, new { onclick = "return (confirm('确定要撤销吗？'))" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+}
+

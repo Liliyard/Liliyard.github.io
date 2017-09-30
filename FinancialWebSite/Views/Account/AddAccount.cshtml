@@ -1,0 +1,141 @@
+﻿@model FinancialWebSite.ViewModels.BaseViewModel
+@using FinancialWebSite.Models
+@{
+    List<Genre> types = ViewBag.ListTypes as List<Genre>;
+}
+
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+
+    <script type="text/javascript">
+        // 日期选择器
+        $(document).ready(function () {
+            $('#TxtDate').datetimepicker({
+                format: 'yyyy-mm-dd',
+                weekStart: 1,
+                autoclose: true,
+                startView: 2,
+                minView: 2,
+                forceParse: false,
+                language: 'zh-CN'
+            });
+        })
+
+        // 下拉框
+        $(document).ready(function () {
+            $("#TxtType").change(function () {
+                //获取类别的ID
+                var GenreID = $("#TxtType").val();
+
+                //获取分类
+                var TxtClass = $("#TxtClass");
+
+                //加入测试代码
+                debugger;
+
+                $.ajax({
+                    url: "/Account/GetAllClassByGenreID/" + GenreID,
+                    type: "post",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (result) {
+                        var myHTML = "";
+                        TxtClass.html("");//赋值之前先清空
+                        $.each(result, function (i, data) {
+                            myHTML += "<option value=" + data.ClassesID + ">" + data.Cname + "</option>";
+                        });
+                        TxtClass.append(myHTML);
+                    },
+                    error: function (result) {
+                        alert(result.responseText);
+                    }
+                });
+            })
+        })
+    </script>
+
+<div class="container-fluid" style="text-align:center;margin-top:10px;">
+    <h2>新增 <small>&nbsp;Add</small></h2>
+</div>
+
+    <div class="container-fluid" style="margin-top:20px; margin-bottom:30px;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form action="/Account/SaveAccount" method="post">
+                <div>
+                    <div>
+                        <label>类型:</label>
+                    </div>
+                    <div>
+                        <select id="TxtType" name="GenreID" style="padding:0px 5px 5px 5px;width:100%;">
+                            <option value="0" selected>全部类型</option>
+                            @foreach (var item in types)
+                            {
+                                <option value="@item.GenreID">@item.Gname</option>
+                            }
+                        </select>
+                    </div>                    
+                </div>
+                <br />
+                <div>
+                    <div>
+                        <label>分类:</label>
+                    </div>
+                    <div>
+                        <select id="TxtClass" name="ClassesID" style="padding:0px 5px 5px 5px;width:100%;">
+                            <option value="0" selected>全部分类</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <div>
+                        <label>金额:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtMoney" name="Money" value="" style="width:100%;"/>
+                    </div>
+
+                </div>
+                <br />
+                <div>
+                    <div>
+                        <label>日期:</label>
+                    </div>
+                    <div style="padding-left:0px;">
+                        <div class='input-group date form_date'>
+                            <input id="TxtDate" name="Date" type='text' class="form-control input-sm" readonly="readonly" />
+                            <span class="input-group-addon input-sm">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <div>
+                        <label>备注: </label>
+                    </div>
+                    <div>
+                        <input type="text" id="TxtRemark" name="Remark" value="" style="width:100%;" />
+                    </div>
+
+                </div>
+                <br />
+                <div style="text-align:center;">
+                    <input type="submit" name="BtnSubmit" id="smallbtnStyle" value="保存" />
+                    <input type="button" name="BtnReset" id="smallbtnStyle" value="重置" onclick="ResetForm();" />
+                    <input type="submit" name="BtnSubmit" id="smallbtnStyle" value="取消" />
+                </div>
+
+            </form>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}

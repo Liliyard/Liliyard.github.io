@@ -1,0 +1,155 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@using FinancialWebSite.Models
+@using FinancialWebSite.ViewModels
+@model AccountListViewModel
+@{
+    List<Genre> types = ViewBag.ListTypes as List<Genre>;
+}
+
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+
+
+    <script type="text/javascript">
+
+        // 日期选择器
+        $(document).ready(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'yyyy-mm-dd',
+                weekStart: 1,
+                autoclose: true,
+                startView: 2,
+                minView: 2,
+                forceParse: false,
+                language: 'zh-CN'
+            });
+
+            $('#datetimepicker2').datetimepicker({
+                format: 'yyyy-mm-dd',
+                weekStart: 1,
+                autoclose: true,
+                startView: 2,
+                minView: 2,
+                forceParse: false,
+                language: 'zh-CN'
+            });
+        })
+
+        // 下拉框
+        $(document).ready(function () {
+            $("#AccountType").change(function () {
+                //获取类别的ID
+                var GenreID = $("#AccountType").val();
+
+                //获取分类
+                var AccountClass = $("#AccountClass");
+
+                //加入测试代码
+                debugger;
+
+                $.ajax({
+                    url: "/Account/GetAllClassByGenreID/" + GenreID,
+                    type: "post",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (result) {
+                        var myHTML = "";
+                        AccountClass.html("");//赋值之前先清空
+                        $.each(result, function (i, data) {
+                            myHTML += "<option value=" + data.ClassesID + ">" + data.Cname + "</option>";
+                        });
+                        AccountClass.append(myHTML);
+                    },
+                    error: function (result) {
+                        alert(result.responseText);
+                    }
+                });
+            })
+        })
+    </script>
+
+    <div class="container-fluid">
+        <div class="col-md-2">
+            <h2 style="color:saddlebrown">搜索<small style="color:darksalmon">Search</small></h2>
+        </div>
+        <div class="col-md-6" id="SearchBox">
+            <form action="/Account/SearchAccountListByMonth" method="post">
+                <div class="col-md-4" style="padding-left:0px;">
+                    <div class='input-group date form_date'>
+                        <input name="date1" id="datetimepicker1" type='text' class="form-control input-sm" readonly="readonly" value="2013-01-01" />
+                        <span class="input-group-addon input-sm">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-left:0px;padding-right:0px;width:30px;margin-top:5px;">
+                    <label>到</label>
+                </div>             
+                <div class="col-md-4" style="padding-left:0px;">
+                    <div class='input-group date form_date'>
+                        <input name="date2" id="datetimepicker2" type='text' class="form-control input-sm" readonly="readonly" value="@Model.Today" />
+                        <span class="input-group-addon input-sm">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3" style="padding-left:0px;">
+                    <input type="submit" name="btnSearch" value="按日期范围搜索" id="btnStyle" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4" id="SearchBox" style="text-align:center;">
+            <form action="/Account/SearchAccountListByType" method="post">
+
+                <select id="AccountType" style="padding:0px 5px 5px 5px;" name="GenreID">
+                    <option value="0" selected>全部类型</option>
+                    @foreach (var item in types)
+                    {
+                        <option value="@item.GenreID">@item.Gname</option>
+                    }
+                </select>
+                <select id="AccountClass" style="padding:0px 5px 5px 5px;" name="ClassesID">
+                    <option value="0" selected>全部分类</option>
+                </select>
+                &nbsp;&nbsp;
+                <input type="submit" name="btnSearch" value="按类型搜索" id="btnStyle" />
+            </form>
+        </div>
+    </div>
+    <hr style="border:1px solid;color:brown;">
+    <div>
+        <table class="table table-hover" style="background-color:antiquewhite;">
+            <tr style="background-color:#f2c9ac;">
+                <th style="border-right:3px double gainsboro">类型</th>
+                <th>分类</th>
+                <th>金额</th>
+                <th>日期</th>
+                <th>备注</th>
+                <th></th>
+            </tr>
+            @foreach (AccountViewModel item in Model.Accounts)
+            {
+                <tr>
+                    <td style="color:@item.TypeColor;border-right:3px double gainsboro"> @item.Genre </td>
+                    <td> @item.Classes </td>
+                    <td> @item.Money </td>
+                    <td> @item.Date </td>
+                    <td> @item.Remark </td>
+                    <td>
+                        @Html.ActionLink("编辑", "Edit", new { id = item.AccountID }) |
+                        @Html.ActionLink("删除", "Delete", new { id = item.AccountID }, new { onclick = "return (confirm('确定要删除吗？'))" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+
+
+}

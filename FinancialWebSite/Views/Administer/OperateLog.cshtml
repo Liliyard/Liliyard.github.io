@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = "~/Views/Shared/AdminMyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model OperateListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+    <div>
+        <h3>操作日志<small>&nbsp;&nbsp;版主管理日志</small></h3>
+    </div>
+    <hr />
+    <div>
+        <table class="table table-hover" style="background-color:antiquewhite;">
+            <tr style="background-color:#f2c9ac;">
+                <td>日志编号</td>
+                <td>用户名</td>
+                <td>操作</td>
+                <td>操作者</td>
+                <td>操作日期</td>
+            </tr>
+            @foreach (OperateViewModel item in Model.Operates)
+            {
+                <tr>
+                    <td>@item.OperateID</td>
+                    <td>@item.UName</td>
+                    <td>@item.OperateState</td>
+                    <td>@item.Aname</td>
+                    <td>@item.OperateDate</td>                                 
+                </tr>
+            }
+        </table>
+    </div>
+
+}
+

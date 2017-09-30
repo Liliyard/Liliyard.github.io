@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model IndexViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+    <script>
+        function randomColor() {
+            //颜色字符串
+            var colorStr = "#";
+            //字符串的每一字符的范围
+            var randomArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+            //产生一个六位的字符串
+            for (var i = 0; i < 6; i++) {
+                //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数
+                colorStr += randomArr[Math.ceil(Math.random() * (15 - 0) + 0)];
+            }
+            return colorStr;
+        }
+
+        function clearCanvas() {
+            $('#MIncome').remove(); // this is my <canvas> element
+            $('#MIncomeParent').append('<canvas id="MIncome" height="300" width="300" style="width: 350px; height: 220px;"></canvas>');
+        }
+    </script>
+
+    <div class="container-fluid" style="padding:30px 15px 30px 15px;margin:15px 0 15px 0;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="row">
+
+                <div class="col-md-4" id="indexCard" style="left:15px;">
+                    <div class="indexbox szb">
+                        <div id="titbarTitle" style="margin-bottom:0;"><strong>收支表</strong></div>
+                        <div id="paymentsListBox" style="margin-top:-1px">
+                            <div class="row" id="item">
+                                <div class="col-md-6" id="itemLeft"><strong>今天</strong><br><span class="memo">@Model.Today</span></div>
+                                <div class="col-md-6" id="itemRight">
+                                    <span id="indexOutcome">@Model.TodayOut</span><br>
+                                    <span id="indexIncome">@Model.TodayIn</span>
+                                </div>
+                            </div>
+                            <div class="row" id="item">
+                                <div class="col-md-6" id="itemLeft"><strong>本周</strong><br><span class="memo">@Model.WeekFDay - @Model.WeekLDay</span></div>
+                                <div class="col-md-6" id="itemRight">
+                                    <span id="indexOutcome">@Model.WeekOut</span><br>
+                                    <span id="indexIncome">@Model.WeekIn</span>
+                                </div>
+                            </div>
+                            <div class="row" id="item">
+                                <div class="col-md-6" id="itemLeft"><strong>本月</strong><br><span class="memo">@Model.MonthFDay - @Model.MonthLDay</span></div>
+                                <div class="col-md-6" id="itemRight">
+                                    <span id="indexOutcome">@Model.MonthOut</span><br>
+                                    <span id="indexIncome">@Model.MonthIn</span>
+                                </div>
+                            </div>
+                            <div class="row" id="item">
+                                <div class="col-md-6" id="itemLeft"><strong>今年</strong><br><span class="memo">@Model.ThisYear</span></div>
+                                <div class="col-md-6" id="itemRight">
+                                    <span id="indexOutcome">@Model.YearOut</span><br>
+                                    <span id="indexIncome">@Model.YearIn</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7" id="indexCard" style="left:15px;height: 304px; width:554px;">
+                    <div class="container-fluid">
+                        <div class="container-fluid" id="titbarTitle">
+                            <div class="col-md-9" style="top:15px;"><strong>月收支统计图</strong></div>
+
+                            <div class="col-md-3" style="text-align:right">
+                                <select class="form-control" id="InOutCanvas">
+                                    <option value="1" selected>收入</option>
+                                    <option value="2">支出</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-md-8" style="text-align:left" id="MIncomeParent">
+                                <canvas id="MIncome" height="300" width="300" style="width: 350px; height: 220px;"></canvas>
+                            </div>
+                           
+                            <div class="col-md-4" style="position:center; top: 50px;">
+                                <div id="legend0" class="chart-legend"></div>
+                            </div>                           
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container-fluid" id="indexCard" style="text-align:center">
+                <div class="container-fluid" id="titbarTitle">
+                    <div class="col-md-6" style="text-align:left"><strong>年收支统计图</strong></div>
+
+                    <div class="col-md-6" style="text-align:right">
+                        <span id="legend" style="background:#EBFF56"></span>
+                        &nbsp;&nbsp;收入&nbsp;&nbsp;&nbsp;
+                        <span id="legend" style="background:#FEDFE1"></span>
+                        &nbsp;&nbsp;支出
+                    </div>
+                </div>
+                <canvas id="myChart" height="300" width="800"></canvas>
+                <script type="text/javascript">
+
+                    window.onload = function () {
+                        getMdatafromDB();
+                        getYdatafromDB();
+                    }
+                    
+                    $(document).ready(function () {
+                        $("#InOutCanvas").change(function () {
+                            clearCanvas();
+                            getMdatafromDB();
+                        });
+                    });
+
+                    // 本月具体收支情况：环图
+                    var getMdatafromDB = function () {
+                                           
+                        var GenreID = $("#InOutCanvas").val();
+
+                        $.ajax({
+                            url: "../Index/GetMonthClassGroup/" + GenreID,
+                            type: "post",
+                            dataType: "json",
+                            error: function () {
+                                alert('Error loading XML document');
+                            },
+                            success: function (data) {
+                                console.info(data);
+                                GetDoughnut(data);
+                            }
+                        });
+                    }
+                    function GetDoughnut(Data) {
+                        if (Data.length == null || Data.length == 0)
+                            return;
+                        var douData = [];
+                        var temData = {};
+                        temData.value = 0;
+                        temData.label = "";
+                        temData.color = "";
+
+                        for (var i = 0; i < Data.length; i++) {
+                            temData.value = Data[i].Money;
+                            temData.label = Data[i].Cname;
+                            temData.color = randomColor();
+                            douData.push({
+                                "value": temData["value"],
+                                "label": temData["label"],
+                                "color": temData["color"]
+                            });
+                        }
+
+                        var options = {
+                            segmentShowStroke: false
+                        }
+
+                        var ctx = document.getElementById("MIncome").getContext('2d');
+                        var myChart = new Chart(ctx).Doughnut(douData, options);
+                        var legend = myChart.generateLegend();
+                        document.getElementById("legend0").innerHTML = legend;
+                    }
+
+                    // 每月收支情况：柱状图
+                    var getYdatafromDB = function () {
+                        $.ajax({
+                            url: "../Index/GetEveryMonthGroup",
+                            type: "post",
+                            dataType: "json",
+                            error: function () {
+                                alert('Error loading XML document');
+                            },
+                            success: function (data) {
+                                console.info(data);
+                                bar(data);
+                            }
+                        });
+                    }
+                    function bar(Data) {
+                        if (Data.length == null || Data.length == 0)
+                            return;
+                        var barData = {};
+                        barData.labels = [];
+                        barData.datasets = [];
+                        var temData1 = {};
+                        var temData2 = {};
+                        temData1.data = [];
+                        temData2.data = [];
+                        temData1.fillColor = "rgba(234,255,86,0.5)";
+                        temData1.strokeColor = "rgba(234,255,86,1)";
+                        temData2.fillColor = "rgba(254,223,225,0.5)";
+                        temData2.strokeColor = "rgba(254,223,225,1)";
+
+                        for (var i = 0; i < Data.length; i++) {
+                            barData.labels.push(Data[i].label);
+                            temData1.data.push(Data[i].MonthIn);
+                            temData2.data.push(Data[i].MonthOut);
+                        }
+                        barData.datasets.push(temData1, temData2); //封装一个规定格式的barData。
+                        console.info(barData);
+                        // 动画效果
+                        var options = {
+                            scaleGridLineColor: "rgba(255,255,255,.1)",
+                            scaleLineColor: "rgba(255,255,255,1)",
+                            scaleFontColor: "#FFFFFF"
+                        }
+
+                        var ctx = document.getElementById("myChart").getContext('2d');
+                        var myChart = new Chart(ctx).Bar(barData, options, { //重点在这里
+                            responsive: true
+                        });
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="col-md-1"></div>
+    </div>
+
+
+}
+

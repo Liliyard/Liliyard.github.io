@@ -1,0 +1,109 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model TitleListViewModel
+@using FinancialWebSite.Models
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+<script type="text/javascript">
+        $(document).ready(function () {
+            if (ViewData["Message"])
+                alert(ViewData["Message"].ToString());
+        });
+</script>
+
+    <div class="container-fluid" style="margin-bottom:10px;">
+        <div class="col-md-5">
+            <h3>讨论圈&nbsp;&nbsp;<small>通过交流了解世界</small></h3>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-4" style="top:35px;">
+            <form action="/Contention/SearchTitle" method="post">
+                <label>按标题搜索</label>&nbsp;
+                <input type="text" id="TxtSearch" name="SearchKey" value="" />&nbsp;
+                <button type="submit" id="btnStyle" style="padding-left:10px; padding-right:10px;">搜索</button>
+            </form>
+        </div>
+
+    </div>
+
+    <hr style="border:1px solid;color:brown;">
+
+    <div class="container-fluid">
+        <div class="container-fluid" style="margin-bottom:20px;">
+            <div class="col-md-2">
+                <div>
+                    <table>
+                        <tr>
+                        <td>现任版主</td>
+                        </tr>
+                        @foreach (User temp in Model.Users)
+                        {
+                            <tr>
+                                <td>@temp.UName</td>
+                            </tr>
+                        }
+                        
+                    </table>
+                </div>
+                <div style="margin-top:15px;">
+                    <a href="/Contention/Apply">申请版主</a>
+                </div>
+                
+            </div>
+            <div class="col-md-8" style="border-left:1px solid brown;">
+                <form action="/Contention/AddTitle" method="post">
+                    <label>标题</label>
+                    <br />
+                    <input type="text" id="TxtTitle" name="TName" value="" style="width:100%; padding-left:10px; padding-right: 10px;" pattern="^.{1,20}$" title="标题不超过40字符或20个汉字！" />
+                   
+                    <br />
+                    <label>正文</label>&nbsp;
+                    <textarea class="form-control" rows="3" name="Contentions"></textarea>
+                    <button type="submit" id="btnStyle" style="padding-left:10px; padding-right:10px;margin-top:10px;">发表</button>
+                </form>
+            </div>
+            <div class="col-md-2"></div>
+
+        </div>
+
+        <div>
+            <hr style="border:1px solid;color:brown;">
+        </div>
+        
+        <div>
+            <table class="table table-hover" style="background-color:antiquewhite;">
+                <tr style="background-color:#f2c9ac;">
+                    <th>标题</th>
+                    <th>作者</th>
+                    <th>日期</th>
+                    <th>回复数</th>
+                    <th></th>
+                </tr>
+                @foreach (TitleViewModel item in Model.Titles)
+                {
+                    <tr>
+                        <td class="col-md-8"> @Html.ActionLink(@item.TName, "Contention", new { id = item.TitleID }, new { target = "_blank" }) </td>
+                        <td class="col-md-2"> @item.UName </td>
+                        <td class="col-md-1"> @item.TDate </td>
+                        <td class="col-md-1"> @item.Reply </td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+}
+

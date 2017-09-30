@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@using FinancialWebSite.ViewModels
+@model BorrowListViewModel
+
+@section TitleSection{家庭理财系统}
+@section ContentBody
+{
+<div class="container-fluid" style="padding-top:20px;margin-top:20px;padding-bottom:20px;">
+    <div class="container-fluid" style="margin-bottom:10px;">
+        <div class="col-md-2">
+            <h3>未还清贷款</h3>
+        </div>
+        <div class="col-md-3">
+            <form action="/Borrow/SearchBorrow" method="post">
+                <input type="hidden" name="haveFinish" value="false" />
+                <label>按标题搜索</label>&nbsp;
+                <input type="text" id="TxtSearch" name="SearchKey" value="" />&nbsp;
+                <button type="submit" id="btnStyle" style="padding-left:10px; padding-right:10px;">搜索</button>
+            </form>
+        </div>
+        <div class="col-md-7" style="top:35px;">
+            <span id="legend" style="background-color:#bce672"></span> 绿色代表下月应还款项&nbsp;&nbsp;
+            <span id="legend" style="background-color:#f9906f"></span> 红色代表本月已逾期未还款项&nbsp;&nbsp;
+            <span id="legend" style="background-color:#fff143"></span> 黄色代表本月未逾期应还款项
+        </div>        
+    </div>
+    <hr style="border:1px solid black" />
+    <div class="container-fluid">
+        <div class="col-md-2">
+            <ul>
+                <li>
+                    <a href="/Borrow/Borrow">未还清贷款</a>                    
+                </li>
+                <li>
+                    <a href="/Borrow/HaveFinish">已还清贷款</a>
+                </li>
+                <li>
+                    <a href="/Borrow/AddNew">新增款项</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="container-fluid">
+                @foreach (BorrowViewModel item in Model.borrows)
+                {
+                    <div id="borrowCard" class="col-md-3" style="background-color:@item.Bcolor">
+
+                        <h3 style="text-align:center;margin-top: 5px;margin-bottom: 5px;">@item.BTitle</h3>
+                        <hr />
+                        <h5> 总金额：@item.BTotal </h5>
+                        <h5> 每月应还款：@item.BMonthShouldPay </h5>
+                        <h5> 下个还款日：@item.BNextRepay </h5>
+                        <h5> 已还：@item.BHavePay / @item.BShouldPay </h5>
+                        <h5> 备注：@item.BRemark </h5>
+                        <div>
+                            @Html.ActionLink("还款", "SetBorrowState", new { id = item.BorrowID }, new { onclick = "return (confirm('确定要还款吗？'))" }) |
+                            @Html.ActionLink("编辑", "Edit", new { id = item.BorrowID }) |
+                            @Html.ActionLink("删除", "Delete", new { id = item.BorrowID }, new { onclick = "return (confirm('确定要删除吗？'))" })
+                        </div>
+                    </div>
+                }
+            </div>
+            
+        </div>
+
+       
+    </div>
+</div>
+}
